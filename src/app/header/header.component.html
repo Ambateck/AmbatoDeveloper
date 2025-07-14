@@ -1,0 +1,21 @@
+<header class="header">
+    <div class="logo">
+        <img src="logo01.png" alt="AmbatoDeveloper" class="logo-img" />
+    </div>
+    <nav class="nav">
+        <ul>
+            @for (item of items; track item.key) {
+            <li (mouseenter)="toggleToolTip(item.key.toLowerCase(), true)"
+                (mouseleave)="toggleToolTip(item.key.toLowerCase(), false)">
+                <a [routerLink]="item.routeLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
+                    class="icon-link">
+                    <i [class]="item.icon + ' fa-2x'"></i>
+                </a>
+                @if (showToolTip[item.key.toLowerCase()]) {
+                <span class="tooltip">{{ item.label }}</span>
+                }
+            </li>
+            }
+        </ul>
+    </nav>
+</header>

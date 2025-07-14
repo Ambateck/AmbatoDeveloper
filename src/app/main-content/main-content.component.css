@@ -1,0 +1,21 @@
+.body {
+    position: fixed;
+    top: 75px;
+    left: 15rem;
+    right: 0;
+    bottom: 60px;
+    background: #000713;
+    padding: 3rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 100;
+    margin: 0 !important;
+}
+
+.body-trimmed {
+    left: 4rem;
+}
+
+.body-md-screen {
+    left: 5rem;
+}

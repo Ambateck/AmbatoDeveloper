@@ -1,0 +1,86 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000713;
+    padding: 0.5rem 2rem;
+    height: 59px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    position: relative;
+    z-index: 300;
+    overflow: hidden;
+    font-family: poppins, sans-serif;
+}
+
+.logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-img {
+    max-height: 100px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.nav ul {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    height: 100%;
+}
+
+.nav li {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: relative;
+}
+
+.icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #fff;
+    text-decoration: none;
+    padding: 0 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.icon-link i {
+    font-size: 1.7rem;
+}
+
+.icon-link:hover {
+    transform: scale(1.05);
+}
+
+.tooltip {
+    position: absolute;
+    bottom: -2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000713;
+    color: #ffd700;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 100;
+    top: 100%;
+    margin-top: 0.2rem;
+}
+
+.nav li:hover .tooltip {
+    opacity: 1;
+}

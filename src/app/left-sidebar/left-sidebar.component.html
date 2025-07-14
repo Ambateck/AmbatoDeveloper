@@ -1,0 +1,28 @@
+<div class="sidenav" [ngClass]="isLeftSidebarCollapsed() ? 'sidenav-collapsed' : ''">
+    <div class="logo-container">
+        <button class="logo" (click)="toggleCollapse()" aria-label="Abrir o cerrar el menú lateral">
+            <i class="fa fa-bars"></i>
+        </button>
+
+        @if (!isLeftSidebarCollapsed()) {
+        <div class="logo-text">AmbatoDeveloper</div>
+        <button class="btn-close" (click)="closeSidenav()" aria-label="Cerrar el menú lateral">
+            <i class="fa fa-times close-icon"></i>
+        </button>
+        }
+    </div>
+
+    <ul class="sidenav-nav">
+        @for (item of items; track $index) {
+        <li class="sidenav-nav-item">
+            <a class="sidenav-nav-link" [routerLink]="item.routeLink" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}">
+                <i class="sidenav-link-icon" [class]="item.icon"></i>
+                @if (!isLeftSidebarCollapsed()) {
+                <span class="sidenav-link-text">{{ item.label }}</span>
+                }
+            </a>
+        </li>
+        }
+    </ul>
+</div>

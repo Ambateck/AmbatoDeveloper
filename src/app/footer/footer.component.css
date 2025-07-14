@@ -1,0 +1,104 @@
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #000713;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.footer-container {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffd700;
+    font-family: "Segoe UI", sans-serif;
+    padding: 0 1rem;
+    position: relative;
+}
+
+.footer-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 2.2rem;
+}
+
+.footer-line.credits {
+    flex-wrap: wrap;
+}
+
+.footer-line .social-icons a {
+    margin-left: 0.6rem;
+    color: #ffd700;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.footer-line .social-icons a:hover {
+    transform: scale(1.2);
+    color: #fff;
+}
+
+.ecg-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    pointer-events: none;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.ecg-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.ecg-path {
+    fill: none;
+    stroke: #ffd700;
+    stroke-width: 1.5;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
+    animation: draw-ecg 10s linear infinite;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes draw-ecg {
+    0% {
+        stroke-dashoffset: 1600;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes move-code {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100vw);
+        opacity: 0;
+    }
+}
