@@ -1,1 +1,82 @@
-<p>job-market works!</p>
+<div class="job-market-container">
+  <h2>Bolsa de Trabajo</h2>
+  <p>¿Interesado en unirte a nuestro equipo? ¡Sube tu currículum aquí!</p>
+
+  <div class="upload-card">
+    <form (ngSubmit)="uploadCv()" #cvForm="ngForm">
+      <div class="form-group">
+        <label for="userName">Nombre Completo</label>
+        <input type="text" id="userName" name="userName" [(ngModel)]="userName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="cvFile">Tu Currículum (PDF, máx 178 KB)</label>
+        <div class="drop-zone"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onFileDrop($event)"
+             [class.drag-over]="isDragOver">
+
+          <ng-container *ngIf="!selectedFile">
+            <div class="drop-zone-content">
+              <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+              <p>Arrastra y suelta tu CV aquí</p>
+              <p class="or-text">o</p>
+              <label for="file-upload" class="file-upload-label">Selecciona un archivo</label>
+              <input id="file-upload" type="file" (change)="onFileSelected($event)" accept=".pdf">
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="selectedFile">
+            <div class="file-info">
+              <p>{{ selectedFile.name }}</p>
+              <p>{{ selectedFile.size / 1024 | number:'1.1-2' }} KB</p>
+              <button type="button" class="remove-file-button" (click)="removeFile()">×</button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <button type="submit" class="upload-button" [disabled]="!cvForm.form.valid || !selectedFile || isLoading">
+        <span *ngIf="!isLoading">Subir CV</span>
+        <div *ngIf="isLoading" class="spinner"></div>
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="cv-table-container">
+  <h3>Currículums Recibidos</h3>
+  <table class="cv-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cv of cvUploads$ | async">
+        <td data-label="Nombre">{{ cv.userId }}</td>
+        <td data-label="Acciones">
+          <button (click)="deleteCv(cv)" class="delete-button"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+      <tr *ngIf="(cvUploads$ | async)?.length === 0">
+        <td colspan="2" class="no-cv-message">No hay currículums subidos.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-password-modal
+  *ngIf="isPasswordModalVisible"
+  actionType="delete"
+  (passwordConfirmed)="onPasswordConfirmed($event)"
+  (canceled)="onPasswordModalCanceled()">
+</app-password-modal>
+
+<app-login-required-modal
+  [isVisible]="showLoginRequiredModal"
+  (close)="onCloseLoginRequiredModal()"
+  (goToLogin)="goToLogin()">
+</app-login-required-modal>
