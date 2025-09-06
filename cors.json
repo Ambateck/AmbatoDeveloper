@@ -1,0 +1,15 @@
+[{
+  "origin": [
+    "http://localhost:4200",
+    "https://code-fest-d56fa.firebaseapp.com",
+    "https://code-fest-d56fa.web.app"
+  ],
+  "method": [
+    "GET",
+    "POST",
+    "PUT",
+    "HEAD",
+    "DELETE"
+  ],
+  "maxAgeSeconds": 3600
+}]

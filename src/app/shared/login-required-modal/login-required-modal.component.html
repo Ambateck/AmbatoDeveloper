@@ -1,0 +1,10 @@
+<div class="modal-overlay" *ngIf="isVisible">
+  <div class="modal-content">
+    <h2>Acceso Requerido</h2>
+    <p>{{ message }}</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" (click)="onGoToLogin()">Ir a Iniciar Sesión</button>
+      <button class="btn btn-secondary" (click)="onClose()">Cerrar</button>
+    </div>
+  </div>
+</div>
