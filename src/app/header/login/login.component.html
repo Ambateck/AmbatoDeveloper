@@ -1,1 +1,74 @@
-<p>login works!</p>
+<div class="auth-container-overlay">
+  <div class="auth-container" *ngIf="currentUser$ | async as user; else loading">
+
+    <button class="close-button" (click)="closeLogin()">×</button>
+
+    <!-- USER LOGGED IN VIEW -->
+    <div *ngIf="!user.isAnonymous" class="user-profile">
+      <ng-container *ngIf="user.photoURL && !imageError; else initialsAvatar">
+        <img [src]="user.photoURL" alt="Foto de perfil" class="user-avatar" (error)="onImageError()">
+      </ng-container>
+      <ng-template #initialsAvatar>
+        <div class="initials-avatar">
+          <span>{{ getInitials(user.displayName) }}</span>
+        </div>
+      </ng-template>
+      <div class="user-info">
+        <span class="user-name">{{ user.displayName }}</span>
+        <span class="user-email">{{ user.email }}</span>
+      </div>
+      <button (click)="signOut()" class="btn-logout" aria-label="Cerrar sesión">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+      <p class="logged-in-message">
+        ¡Bienvenido! Has iniciado sesión exitosamente. Ahora tienes acceso completo a todas las funciones de la página.
+        El botón <i class="fas fa-sign-out-alt"></i> te permite cerrar tu sesión actual.
+      </p>
+    </div>
+
+    <!-- ANONYMOUS USER VIEW -->
+    <div *ngIf="user.isAnonymous" class="login-card">
+      <h2 class="login-title">Únete a la Comunidad</h2>
+      <p class="login-subtitle">¡AHORA PUEDES ENVIARNOS TU INSCRIPCIÓN Y TUS DATOS!, también puedes usar tus redes
+        sociales, si quieres salir del modo invitado click en el botón cerrar sesión</p>
+      <p class="logged-in-message"></p>
+      <div class="login-buttons">
+        <button (click)="signInWithGoogle()" class="btn-login btn-google">
+          <i class="fab fa-google"></i>
+          <span>Continuar con Google</span>
+        </button>
+        <button (click)="signInWithFacebook()" class="btn-login btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+          <span>Continuar con Facebook</span>
+        </button>
+        <button (click)="signOut()" class="btn-login btn-anonymous">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Cerrar sesión Invitado</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LOADING TEMPLATE -->
+  <ng-template #loading>
+    <div class="login-card">
+      <h2 class="login-title">Bienvenido</h2>
+      <p class="login-subtitle">Elige una opción para continuar</p>
+      <div class="login-buttons">
+        <button (click)="signInWithGoogle()" class="btn-login btn-google">
+          <i class="fab fa-google"></i>
+          <span>Continuar con Google</span>
+        </button>
+        <button (click)="signInWithFacebook()" class="btn-login btn-facebook">
+          <i class="fab fa-facebook-f"></i>
+          <span>Continuar con Facebook</span>
+        </button>
+        <button (click)="signInAnonymously()" class="btn-login btn-anonymous">
+          <i class="fas fa-user-secret"></i>
+          <span>Continuar como Invitado</span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>
