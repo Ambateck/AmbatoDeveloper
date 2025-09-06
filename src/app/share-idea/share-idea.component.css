@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.share-idea-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #000713;
+  min-height: 50vh;
+  flex-direction: column;
+}
+
+.form-wrapper {
+  background: #1a1a2e;
+  border: 1px solid #4a4a70;
+  border-radius: 10px;
+  padding: 30px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  color: #f0f0f0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.main-title {
+  font-size: 2rem;
+  color: gold;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #e0e0ff;
+  margin-bottom: 30px;
+}
+
+.textarea-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.idea-textarea {
+  width: 100%;
+  height: 120px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #4a4a70;
+  background: #101024;
+  color: #f0f0f0;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.idea-textarea:focus {
+  outline: none;
+  border-color: gold;
+}
+
+.char-counter {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 0.875rem;
+  color: #9a9aae;
+}
+
+.char-counter.error {
+  color: #ff4d4d;
+}
+
+.submit-button {
+  background: gold;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #ffd700;
+}
+
+.submit-button:disabled {
+  background-color: #5a5a70;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.success-message .fa-check-circle {
+  color: #28a745;
+  margin-bottom: 20px;
+}
+
+.success-message h2 {
+  color: gold;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.success-message p {
+  color: #e0e0ff;
+  font-size: 1rem;
+}
+
+/* Appended styles */
+.ideas-list-wrapper {
+  background: #1a1a2e;
+  border: 1px solid #4a4a70;
+  border-radius: 10px;
+  padding: 30px;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 40px;
+  color: #f0f0f0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.list-title {
+  font-size: 1.8rem;
+  color: gold;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ideas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.idea-item {
+  background: #101024;
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 4px solid gold;
+}
+
+.idea-text {
+  margin: 0;
+  flex-grow: 1;
+  padding-right: 15px;
+  word-break: break-word;
+}
+
+.idea-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0;
+}
+
+.idea-date {
+  font-size: 0.8rem;
+  color: #9a9aae;
+}
+
+.delete-button {
+  background: transparent;
+  border: none;
+  color: #ff4d4d;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px;
+}
+
+.delete-button:hover {
+  color: #ff1a1a;
+}
+
+.no-ideas,
+.loading {
+  text-align: center;
+  color: #9a9aae;
+  padding: 20px;
+}
+
+.login-prompt a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-prompt a:hover {
+  text-decoration: underline;
+}

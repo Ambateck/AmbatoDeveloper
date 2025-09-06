@@ -1,0 +1,66 @@
+.donations-container {
+  padding: 2rem;
+  color: #f0f0f0;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+h1 {
+  color: gold;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 2.5rem;
+}
+
+.bank-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.bank-card {
+  background-color: #1a1a2e;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  width: 350px;
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.bank-card:hover {
+  transform: translateY(-5px);
+}
+
+.bank-card h3 {
+  color: gold;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.bank-card p {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.bank-card p strong {
+  color: #ccc;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .donations-container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .bank-card {
+    width: 100%;
+    padding: 1.5rem;
+  }
+}

@@ -1,1 +1,22 @@
-<p>code-fest works!</p>
+<div class="code-fest-container">
+    <h1>Festival del Código Ambato 2026 - Categorías</h1>
+    <div class="cards-container">
+        <div class="card" *ngFor="let card of cards; let i = index" #card>
+            <img [src]="card.image" alt="" [title]="card.title" class="card-image">
+            <div class="card-content">
+                <h2>{{ card.title }}</h2>
+                <p class="subtitle"><em>"{{ card.subtitle }}"</em></p>
+                <div class="details-section">
+                    <h3>{{ i === 3 ? 'Requisitos' : 'Características' }}</h3>
+                    <ul>
+                        <li *ngFor="let item of card.characteristics">{{ item }}</li>
+                    </ul>
+                </div>
+                <button class="btn-inscription" *ngIf="i < 3" (click)="openModal()">
+                    <span>Inscríbeme</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <app-modal-form *ngIf="isModalVisible" (close)="closeModal()"></app-modal-form>
+</div>

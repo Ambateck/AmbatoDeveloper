@@ -1,1 +1,129 @@
-<p>free-design works!</p>
+<div class="form-container">
+  <div *ngIf="formVisible">
+    <h2>Solicita tu Diseño Web Gratuito</h2>
+    <p>Describe la página web que necesitas. Si tu idea es seleccionada, la desarrollaremos sin costo alguno.</p>
+    <form (ngSubmit)="enviarSolicitud()" #designForm="ngForm">
+      <div class="form-group">
+        <label for="nombre">Nombre Completo <span class="required-asterisk">*</span></label>
+        <input type="text" id="nombre" [(ngModel)]="nombre" name="nombre" placeholder="Tu nombre completo" required
+          maxlength="50" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+" #nombreInput="ngModel">
+        <div *ngIf="nombreInput.invalid && (nombreInput.dirty || nombreInput.touched)" class="error-message">
+          <div *ngIf="nombreInput.errors?.['pattern']">
+            Ingresa un nombre real.
+          </div>
+          <div *ngIf="nombreInput.errors?.['required']">
+            El nombre es obligatorio.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="telefono">Número de Teléfono <span class="required-asterisk">*</span></label>
+        <input type="tel" id="telefono" [(ngModel)]="telefono" name="telefono"
+          placeholder="Tu número de teléfono (ej: 09XXXXXXXX)" required pattern="^09[0-9]{8}$" #telefonoInput="ngModel">
+        <div *ngIf="telefonoInput.invalid && (telefonoInput.dirty || telefonoInput.touched)" class="error-message">
+          <div *ngIf="telefonoInput.errors?.['pattern']">
+            Número válido.
+          </div>
+          <div *ngIf="telefonoInput.errors?.['required']">
+            El número de teléfono es obligatorio.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="correoElectronico">Correo Electrónico <span class="required-asterisk">*</span></label>
+        <input type="email" id="correoElectronico" [(ngModel)]="correoElectronico" name="correoElectronico"
+          placeholder="Tu correo electrónico" required pattern="^\S+@\S+\.\S+$" #correoElectronicoInput="ngModel">
+        <div *ngIf="correoElectronicoInput.invalid && (correoElectronicoInput.dirty || correoElectronicoInput.touched)"
+          class="error-message">
+          <div *ngIf="correoElectronicoInput.errors?.['email'] || correoElectronicoInput.errors?.['pattern']">
+            Ingresa un correo electrónico válido.
+          </div>
+          <div *ngIf="correoElectronicoInput.errors?.['required']">
+            El correo electrónico es obligatorio.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="direccion">Dirección <span class="required-asterisk">*</span></label>
+        <input type="text" id="direccion" [(ngModel)]="direccion" name="direccion" placeholder="Tu dirección (Opcional)"
+          required #direccionInput="ngModel">
+        <div *ngIf="direccionInput.invalid && (direccionInput.dirty || direccionInput.touched)" class="error-message">
+          <div *ngIf="direccionInput.errors?.['required']">
+            La dirección es obligatoria.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descripcionDiseno">Descripción del Diseño <span class="required-asterisk">*</span></label>
+        <textarea id="descripcionDiseno" [(ngModel)]="descripcionDiseno" name="descripcionDiseno" rows="6"
+          maxlength="500" placeholder="Describe tu idea en máximo 500 caracteres..." required
+          #descripcionDisenoInput="ngModel"> </textarea>
+        <div class="char-counter">{{ descripcionDiseno.length }} / 500</div>
+        <div *ngIf="descripcionDisenoInput.invalid && (descripcionDisenoInput.dirty || descripcionDisenoInput.touched)"
+          class="error-message">
+          <div *ngIf="descripcionDisenoInput.errors?.['required']">
+            La descripción del diseño es obligatoria.
+          </div>
+        </div>
+      </div>
+      <button type="submit" [disabled]="!designForm.form.valid || isLoading">Enviar Solicitud</button>
+      <div *ngIf="isLoading" class="spinner-container">
+        <div class="spinner"></div>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="mensajeEnviado" class="success-message">
+    <p>¡Tu solicitud ha sido enviada con éxito! Nos pondremos en contacto si tu idea es seleccionada.</p>
+  </div>
+
+  <div *ngIf="!formVisible" class="new-request-button-container">
+    <button (click)="formVisible = true" class="btn-secondary">Hacer otra solicitud</button>
+  </div>
+</div>
+
+<div class="requests-table-container">
+  <h3>Solicitudes de Diseño Web</h3>
+  <div class="table-controls">
+    <input type="text" class="search-input" placeholder="Buscar por descripción o nombre..." (input)="onSearch($event)">
+  </div>
+  <table class="requests-table" #requestsTable>
+    <thead>
+      <tr>
+        <th>Descripción del Diseño</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of filteredAndPaginatedRequests$ | async">
+        <td data-label="Descripción del Diseño" [title]="request.descripcion">{{ request.descripcion }}</td>
+        <td data-label="Estado">{{ request.estado }}</td>
+        <td data-label="Acciones">
+          <div class="button-group">
+            <button (click)="updateStatus(request.id, request.estado)" [disabled]="request.estado === 'Elaborando'"
+              class="status-button">
+              Analizando
+            </button>
+            <button (click)="deleteRequest(request.id)" class="delete-button">Eliminar</button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="totalItems === 0">
+        <td colspan="3" class="no-requests-message">No hay solicitudes de diseño web que coincidan con la búsqueda.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-controls">
+    <button (click)="prevPage()" [disabled]="(currentPage$ | async) === 1" class="pagination-button">Anterior</button>
+    <span>Página {{ currentPage$ | async }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="(currentPage$ | async) === totalPages" class="pagination-button">Siguiente</button>
+  </div>
+</div>
+
+<app-password-modal
+  *ngIf="isPasswordModalVisible"
+  [actionType]="currentActionType || ''"
+  (passwordConfirmed)="onPasswordConfirmed($event)"
+  (canceled)="onPasswordModalCanceled()">
+</app-password-modal>

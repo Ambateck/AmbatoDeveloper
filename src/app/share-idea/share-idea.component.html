@@ -1,1 +1,70 @@
-<p>share-idea works!</p>
+<div class="share-idea-container">
+  <div class="form-wrapper">
+    <ng-container *ngIf="!isAuthenticated">
+      <div class="login-prompt">
+        <h2><a [routerLink]="'/login'">Inicia sesión para Ingresar tu Idea</a></h2>
+        <p>Debes iniciar sesión para enviar y gestionar ideas.</p>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="isAuthenticated">
+      <ng-container *ngIf="!showSuccessMessage">
+        <h1 class="main-title">Comparte tu Idea</h1>
+        <p class="subtitle">¿Tienes una sugerencia para una App o página Web? ¡Nos encantaría escucharla!</p>
+
+        <div class="textarea-container">
+          <textarea [(ngModel)]="ideaText" maxlength="150" placeholder="Escribe tu idea aquí..." class="idea-textarea"
+            [disabled]="!isAuthenticated"></textarea>
+          <div class="char-counter" [ngClass]="{'error': remainingChars < 0}">
+            {{ remainingChars }}
+          </div>
+        </div>
+
+        <button (click)="submitIdea()"
+          [disabled]="ideaText.trim().length === 0 || ideaText.length > 150 || isSubmitting || !isAuthenticated"
+          class="submit-button">
+          <span *ngIf="!isSubmitting">Enviar Idea</span>
+          <span *ngIf="isSubmitting">Enviando...</span>
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="showSuccessMessage">
+        <div class="success-message">
+          <i class="fas fa-check-circle fa-3x"></i>
+          <h2>¡Gracias por tu idea!</h2>
+          <p>Hemos recibido tu sugerencia y la tendremos en cuenta.</p>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div class="ideas-list-wrapper">
+    <h2 class="list-title">Ideas Recientes</h2>
+    <div *ngIf="ideas$ | async as ideas; else loading" class="ideas-list">
+      <div *ngIf="ideas.length === 0" class="no-ideas">
+        <p>¡Aún no hay ideas. ¡Sé el primero en compartir una!</p>
+      </div>
+      <div *ngFor="let idea of ideas" class="idea-item">
+        <p class="idea-text">{{ idea.text }}</p>
+        <div class="idea-meta">
+          <span class="idea-date">{{ idea.createdAt?.toDate() | date:'short' }}</span>
+          <button (click)="deleteIdea(idea.id)" class="delete-button" title="Eliminar idea" *ngIf="isAuthenticated">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-template #loading>
+      <p>Cargando ideas...</p>
+    </ng-template>
+  </div>
+</div>
+
+<app-password-modal
+  *ngIf="isPasswordModalVisible"
+  actionType="delete"
+  (passwordConfirmed)="onPasswordConfirmed($event)"
+  (canceled)="onPasswordModalCanceled()">
+</app-password-modal>
+
+

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Inject, PLATFORM_ID, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID, signal, NgZone } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -8,43 +8,66 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements OnInit, OnDestroy {
   private words = ['Websites', 'Apps', 'Premios', 'Concursos', 'Eventos'];
   private wordIndex = signal(0);
   private charIndex = signal(0);
   private isDeleting = signal(false);
-  private delay = 100;
   displayText = signal('');
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  private delayTyping = 300;
+  private delayDeleting = 275;
+  private pauseAfterWord = 1200;
+  private timeoutId: any;
 
-  ngAfterViewInit(): void {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private zone: NgZone
+  ) { }
+
+  ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.animate();
+      this.zone.runOutsideAngular(() => {
+        this.timeoutId = setTimeout(() => this.typeWriter(), this.delayTyping);
+      });
     }
   }
 
-  private animate(): void {
-    const currentWord = this.words[this.wordIndex()];
-    const currentChar = this.charIndex();
-    const isDeleting = this.isDeleting();
+  ngOnDestroy(): void {
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+  }
 
-    if (!isDeleting && currentChar <= currentWord.length) {
-      this.displayText.set(currentWord.substring(0, currentChar));
-      this.charIndex.set(currentChar + 1);
-    } else if (isDeleting && currentChar >= 0) {
-      this.displayText.set(currentWord.substring(0, currentChar));
-      this.charIndex.set(currentChar - 1);
+  private typeWriter(): void {
+    const currentWord = this.words[this.wordIndex()];
+    const currentCharIndex = this.charIndex();
+    const deleting = this.isDeleting();
+
+    let updatedText = '';
+
+    if (deleting) {
+      updatedText = currentWord.substring(0, currentCharIndex - 1);
+      this.charIndex.set(currentCharIndex - 1);
+    } else {
+      updatedText = currentWord.substring(0, currentCharIndex + 1);
+      this.charIndex.set(currentCharIndex + 1);
     }
-    if (!isDeleting && currentChar === currentWord.length + 1) {
+
+    this.zone.run(() => {
+      this.displayText.set(updatedText);
+    });
+
+    let timeout = deleting ? this.delayDeleting : this.delayTyping;
+
+    if (!deleting && updatedText === currentWord) {
+      timeout = this.pauseAfterWord;
       this.isDeleting.set(true);
-      setTimeout(() => this.animate(), this.delay * 4);
-      return;
-    }
-    if (isDeleting && currentChar === 0) {
+    } else if (deleting && updatedText === '') {
       this.isDeleting.set(false);
       this.wordIndex.set((this.wordIndex() + 1) % this.words.length);
     }
-    setTimeout(() => this.animate(), this.delay);
+
+    this.timeoutId = setTimeout(() => this.typeWriter(), timeout);
   }
 }

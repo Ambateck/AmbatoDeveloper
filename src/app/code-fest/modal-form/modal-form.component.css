@@ -1,0 +1,239 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999 !important;
+}
+
+.modal {
+  font-family: 'Poppins', sans-serif;
+  background: #1a1a2e;
+  border: 1px solid #4a4a70;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  width: 500px;
+  max-width: 90%;
+  padding: 20px;
+  color: #f0f0f0;
+  position: relative;
+  max-height: 68vh;
+  overflow-y: auto;
+}
+
+.modal h2 {
+  font-size: 1.5rem;
+  color: gold;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #f0f0f0;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #e0e0ff;
+  font-size: 1rem;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #4a4a70;
+  background: #1a1a2e;
+  color: #f0f0f0;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-group.terms {
+  display: flex;
+  align-items: center;
+}
+
+.form-group.terms input {
+  width: auto;
+  margin-right: 10px;
+}
+
+.form-group.terms label {
+  margin-bottom: 0;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.transfer-info-label {
+  text-align: center;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #e0e0ff;
+  font-size: 1rem;
+}
+
+.info-textarea {
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #4a4a70;
+  background: #1a1a2e;
+  color: #f0f0f0;
+  font-size: 0.8rem;
+  box-sizing: border-box;
+  resize: none !important;
+  line-height: 1.2;
+  height: 9.5rem;
+  overflow: hidden !important;
+  white-space: pre-wrap;
+}
+
+.file-input-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+label.btn-inscription.btn-file-custom {
+  padding: 0.6rem 0.45rem;
+  min-width: 0 !important;
+  width: auto !important;
+  font-size: 0.6rem;
+  box-sizing: content-box;
+}
+
+.file-name {
+  color: #e0e0ff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.btn-inscription {
+  /* --- Fallback variables for static glow effect --- */
+  --bg-fallback: #1a1a2e;
+  --glow-fallback: radial-gradient(circle, hsl(50, 100%, 70%), hsl(50, 100%, 50%), transparent 60%);
+  --glow-text-fallback: linear-gradient(90deg, hsl(50, 100%, 70%), hsl(50, 100%, 50%));
+
+  border-radius: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.1ch;
+  border: 2px solid transparent;
+  box-shadow: 0 1px hsl(0 0% 100% / 0.15) inset;
+  cursor: pointer;
+  /* Use the global dynamic variable OR the static fallback */
+  background:
+    linear-gradient(var(--bg, var(--bg-fallback)), var(--bg, var(--bg-fallback))) padding-box,
+    var(--glow, var(--glow-fallback)),
+    linear-gradient(black, black) border-box;
+  transition: background-size 0.24s;
+  touch-action: none;
+  position: relative;
+  padding: 1rem 2rem;
+  font-family: 'Poppins', sans-serif;
+  min-width: 150px;
+  text-align: center;
+}
+
+.btn-inscription span {
+  /* Use the global dynamic variable OR the static fallback */
+  background: var(--glow, var(--glow-text-fallback));
+  background-clip: text;
+  color: transparent;
+  display: block;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-inscription::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  filter: blur(15px);
+  border: 2px solid transparent;
+  /* Use the global dynamic variable OR the static fallback */
+  background: var(--glow, var(--glow-fallback));
+  border-radius: 1rem;
+  z-index: -1;
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 0.875rem;
+  margin-top: 5px;
+}
+
+.ng-invalid.ng-touched {
+  border-color: #ff4d4d;
+}
+
+.success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.success-message h2 {
+  color: gold;
+}
+
+.success-message p {
+  margin-bottom: 20px;
+}
+
+.btn-inscription:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background: linear-gradient(var(--bg), var(--bg)) padding-box,
+    linear-gradient(black, black) border-box;
+  box-shadow: none;
+  filter: none;
+}
+
+.btn-inscription:disabled::after {
+  filter: none;
+  background: none;
+}

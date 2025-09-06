@@ -1,0 +1,185 @@
+<div class="modal-backdrop" (click)="onClose()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="onClose()">&times;</button>
+
+    <ng-container *ngIf="!showSuccessMessage">
+      <h2>FORMULARIO DE INSCRIPCIÓN</h2>
+      <form #inscriptionForm="ngForm" (ngSubmit)="onSubmit(inscriptionForm)" novalidate>
+        <div class="form-group">
+          <label for="categoria">Seleccionar la categoria</label>
+          <select id="categoria" name="categoria" [(ngModel)]="categoria" #categoriaModel="ngModel" required>
+            <option [ngValue]="null" disabled>Seleccione una categoría</option>
+            <option value="fuerza-libre">Fuerza Libre</option>
+            <option value="app-soluciones">APP Soluciones</option>
+            <option value="ecuakotlin">EcuaKotlin</option>
+          </select>
+          <div *ngIf="categoriaModel.invalid && (categoriaModel.dirty || categoriaModel.touched)" class="error-message">
+            ¡Debe escoger una Categoría!
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="tipoInscripcion">Tipo de Inscripción</label>
+          <select id="tipoInscripcion" name="tipoInscripcion" [(ngModel)]="tipoInscripcion"
+            #tipoInscripcionModel="ngModel" required>
+            <option [ngValue]="null" disabled>Seleccione un tipo</option>
+            <option value="individual">Individual</option>
+            <option value="grupo">Equipos</option>
+          </select>
+          <div *ngIf="tipoInscripcionModel.invalid && (tipoInscripcionModel.dirty || tipoInscripcionModel.touched)"
+            class="error-message">
+            ¡Debe escoger un Tipo de Inscripción!
+          </div>
+        </div>
+
+        <div *ngIf="tipoInscripcion === 'individual'">
+          <div class="form-group">
+            <label for="nombreCompleto">Nombre y Apellido</label>
+            <input type="text" id="nombreCompleto" name="nombreCompleto" ngModel #nombreCompletoModel="ngModel" required
+              pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,]+" maxlength="500">
+            <div *ngIf="nombreCompletoModel.invalid && (nombreCompletoModel.dirty || nombreCompletoModel.touched)"
+              class="error-message">
+              <span *ngIf="nombreCompletoModel.errors?.['required']">Nombre y Apellido es Obligatorio</span>
+              <span *ngIf="nombreCompletoModel.errors?.['pattern']">Solo se permiten letras, espacios y comas.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cedula">Número de cédula</label>
+            <input type="text" id="cedula" name="cedula" ngModel #cedulaModel="ngModel" required pattern="^\d{10}$"
+              maxlength="10">
+            <div *ngIf="cedulaModel.invalid && (cedulaModel.dirty || cedulaModel.touched)" class="error-message">
+              <span *ngIf="cedulaModel.errors?.['required']">El número de cédula es Obligatorio</span>
+              <span *ngIf="cedulaModel.errors?.['pattern']">Ingrese su número de cédula válido</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="correo">Correo</label>
+            <input type="email" id="correo" name="correo" ngModel #correoModel="ngModel" required email>
+            <div *ngIf="correoModel.invalid && (correoModel.dirty || correoModel.touched)" class="error-message">
+              <span *ngIf="correoModel.errors?.['required']">El correo es requerido.</span>
+              <span *ngIf="correoModel.errors?.['email']">Por favor, ingrese un correo válido.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="telefono">Número de teléfono</label>
+            <input type="tel" id="telefono" name="telefono" ngModel #telefonoModel="ngModel" required
+              pattern="^09\d{8}$" maxlength="10">
+            <div *ngIf="telefonoModel.invalid && (telefonoModel.dirty || telefonoModel.touched)" class="error-message">
+              <span *ngIf="telefonoModel.errors?.['required']">El número de teléfono es Obligatorio.</span>
+              <span *ngIf="telefonoModel.errors?.['pattern']">Ingrese un número válido.</span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="tipoInscripcion === 'grupo'">
+          <div class="form-group">
+            <label for="nombreGrupo">Nombre del grupo</label>
+            <input type="text" id="nombreGrupo" name="nombreGrupo" ngModel #nombreGrupoModel="ngModel" required
+              maxlength="20">
+            <div *ngIf="nombreGrupoModel.invalid && (nombreGrupoModel.dirty || nombreGrupoModel.touched)"
+              class="error-message">
+              <span *ngIf="nombreGrupoModel.errors?.['required']">El nombre del grupo es Obligatorio.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="numIntegrantes">Número de integrantes del grupo</label>
+            <input type="number" id="numIntegrantes" name="numIntegrantes" min="2" max="100" ngModel
+              #numIntegrantesModel="ngModel" required>
+            <div *ngIf="numIntegrantesModel.invalid && (numIntegrantesModel.dirty || numIntegrantesModel.touched)"
+              class="error-message">
+              El número de integrantes es Obligatorio.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="nombresApellidosGrupo">Nombres y apellidos</label>
+            <textarea id="nombresApellidosGrupo" name="nombresApellidosGrupo" rows="3" ngModel
+              #nombresApellidosGrupoModel="ngModel" required pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s,]+"
+              maxlength="500"></textarea>
+            <div
+              *ngIf="nombresApellidosGrupoModel.invalid && (nombresApellidosGrupoModel.dirty || nombresApellidosGrupoModel.touched)"
+              class="error-message">
+              <span *ngIf="nombresApellidosGrupoModel.errors?.['required']">Los nombres y apellidos del grupo es
+                Obligatorio.</span>
+              <span *ngIf="nombresApellidosGrupoModel.errors?.['pattern']">Solo se permiten letras, espacios y
+                comas.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="celularesGrupo">Numeros de celulares</label>
+            <textarea id="celularesGrupo" name="celularesGrupo" rows="3" ngModel #celularesGrupoModel="ngModel" required
+              pattern="^09\d{8}$" maxlength="10"></textarea>
+            <div *ngIf="celularesGrupoModel.invalid && (celularesGrupoModel.dirty || celularesGrupoModel.touched)"
+              class="error-message">
+              <span *ngIf="celularesGrupoModel.errors?.['required']">Los números de celular del grupo son
+                Obligatorios.</span>
+              <span *ngIf="celularesGrupoModel.errors?.['pattern']">Ingrese un número de celular válido.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cedulasGrupo">Numeros de cédulas</label>
+            <textarea id="cedulasGrupo" name="cedulasGrupo" rows="3" ngModel #cedulasGrupoModel="ngModel" required
+              pattern="^\d{10}$" maxlength="10"></textarea>
+            <div *ngIf="cedulasGrupoModel.invalid && (cedulasGrupoModel.dirty || celularesGrupoModel.touched)"
+              class="error-message">
+              <span *ngIf="cedulasGrupoModel.errors?.['required']">Los números de cédula del grupo son
+                Obligatorios.</span>
+              <span *ngIf="cedulasGrupoModel.errors?.['pattern']">Ingrese números de cédula válidos.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="transferInfo" class="transfer-info-label">Datos para la transferencia o depósito</label>
+          <textarea id="transferInfo" class="info-textarea" readonly title="Información para transferencia o depósito">
+Nombre: Carlos Fernando Arroba López
+Número de Cédula: 1803293800
+Número de Cuenta: 1000150995
+Tipo de Cuenta: Ahorros
+Nombre de la Institución: Cooperativa el Sagrario
+Monto o Cantidad: $10 por persona
+Motivo: Inscripción
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Subir foto del depósito o transferencia</label>
+          <input type="file" id="comprobante" name="comprobante" accept="image/jpeg, image/webp, application/pdf"
+            (change)="onFileSelected($event)" #comprobanteInput required>
+          <div class="file-input-container">
+            <label for="comprobante" class="btn-inscription btn-file-custom">
+              <span>Subir archivo</span>
+            </label>
+            <span *ngIf="selectedFileName" class="file-name">{{ selectedFileName }}</span>
+          </div>
+        </div>
+
+        <div class="form-group terms">
+          <input type="checkbox" id="terms" name="terms" ngModel #termsModel="ngModel" required>
+          <label for="terms">Acepto los términos y condiciones</label>
+          <div *ngIf="termsModel.invalid && (termsModel.dirty || termsModel.touched)" class="error-message">
+            Debe aceptar los términos y condiciones.
+          </div>
+        </div>
+
+        <div class="form-buttons">
+          <button type="submit" class="btn-inscription" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Enviar</span>
+            <span *ngIf="isSubmitting">Enviando...</span>
+          </button>
+          <button type="button" class="btn-inscription" (click)="onClose()">
+            <span>Cerrar</span>
+          </button>
+        </div>
+      </form>
+    </ng-container>
+
+    <div *ngIf="showSuccessMessage" class="success-message">
+      <h2>¡Inscripción Enviada!</h2>
+      <p>Gracias por registrarte. Hemos recibido tus datos correctamente.</p>
+      <p>Nos pondremos en contacto contigo pronto.</p>
+      <button type="button" class="btn-inscription" (click)="onClose()">
+        <span>Cerrar</span>
+      </button>
+    </div>
+  </div>
+</div>

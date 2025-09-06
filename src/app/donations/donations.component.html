@@ -1,1 +1,12 @@
-<p>donations works!</p>
+<div class="donations-container">
+  <h1>Donaciones</h1>
+  <div class="bank-cards-container">
+    <div class="bank-card" *ngFor="let account of bankAccounts">
+      <h3>{{ account.bankName }}</h3>
+      <p><strong>Nombre Completo:</strong> {{ account.fullName }}</p>
+      <p><strong>Número de Cédula:</strong> {{ account.idNumber }}</p>
+      <p><strong>Número de Cuenta:</strong> {{ account.accountNumber }}</p>
+      <p><strong>Tipo de Cuenta:</strong> {{ account.accountType }}</p>
+    </div>
+  </div>
+</div>
