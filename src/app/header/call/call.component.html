@@ -1,1 +1,27 @@
-<p>call works!</p>
+<div class="contact-container">
+  <h1 class="main-title">Contacta con Nosotros</h1>
+  <p class="subtitle">Estamos aquí para ayudarte. Elige el canal que prefieras.</p>
+
+  <div class="cards-grid">
+    @for (contact of companyNumbers; track contact.department) {
+    <div class="contact-card">
+      <div class="card-header">
+        <i [class]="contact.icon + ' fa-2x'"></i>
+        <h2>{{ contact.department }}</h2>
+      </div>
+      <div class="card-body">
+        <p class="phone-number">{{ contact.number }}</p>
+        <p class="hours"><i class="far fa-clock"></i> {{ contact.hours }}</p>
+      </div>
+      <div class="card-footer">
+        @if (contact.type === 'whatsapp') {
+        <a [href]="getWhatsAppUrl(contact.number)" target="_blank" rel="noopener noreferrer" class="call-button">Chatear
+          por WhatsApp</a>
+        } @else {
+        <a [href]="getTelUrl(contact.number)" class="call-button">Llamar ahora</a>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>

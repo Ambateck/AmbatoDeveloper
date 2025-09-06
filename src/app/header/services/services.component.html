@@ -1,1 +1,69 @@
-<p>services works!</p>
+<div class="table-container">
+  <h1>Inscripciones Registradas</h1>
+  
+  <div class="table-controls">
+    <input type="text" class="search-input" placeholder="Buscar..." (input)="onSearch($event)">
+  </div>
+
+  <table class="registrations-table" *ngIf="(filteredAndPaginatedServices$ | async) as registrations; else loading">
+    <ng-container *ngIf="registrations.length > 0; else noData">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>Tipo</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reg of registrations" [ngClass]="{'accepted-row': reg.estado === 'Aceptado'}">
+          <td data-label="Nombre">
+            <ng-container *ngIf="reg.tipoInscripcion === 'grupo'; else individualName">
+              {{ reg.nombreGrupo || 'N/A' }}
+            </ng-container>
+            <ng-template #individualName>
+              {{ reg.nombreCompleto || 'N/A' }}
+            </ng-template>
+          </td>
+          <td data-label="Categoría">{{ reg.categoria }}</td>
+          <td data-label="Tipo">
+            <ng-container *ngIf="reg.tipoInscripcion === 'grupo'; else otherType">
+              Equipos
+            </ng-container>
+            <ng-template #otherType>
+              {{ reg.tipoInscripcion }}
+            </ng-template>
+          </td>
+          <td data-label="Estado">{{ reg.estado }}</td> <!-- Display actual status -->
+          <td data-label="Acciones">
+            <div class="actions-container">
+              <button (click)="editRegistration(reg.id)" class="edit-button" [disabled]="reg.estado === 'Aceptado'">Validar</button>
+              <button (click)="deleteRegistration(reg.id)" class="delete-button">Eliminar</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </ng-container>
+  </table>
+
+  <div class="pagination-controls" *ngIf="totalPages > 0">
+    <button (click)="previousPage()" [disabled]="(currentPage$ | async) === 1">Anterior</button>
+    <span>Página {{ currentPage$ | async }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="(currentPage$ | async) === totalPages">Siguiente</button>
+  </div>
+
+  <ng-template #loading>
+    <p class="loading-data">Cargando datos...</p>
+  </ng-template>
+
+  <ng-template #noData>
+    <p class="no-data" *ngIf="totalItems === 0">No hay registros que coincidan con la búsqueda.</p>
+  </ng-template>
+  <app-password-modal
+    *ngIf="isPasswordModalVisible"
+    [actionType]="currentActionType || ''"
+    (passwordConfirmed)="onPasswordConfirmed($event)"
+    (canceled)="onPasswordModalCanceled()">
+  </app-password-modal>
+</div>

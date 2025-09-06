@@ -8,7 +8,6 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
     position: relative;
     z-index: 300;
-    overflow: hidden;
     font-family: poppins, sans-serif;
 }
 
@@ -56,6 +55,7 @@
 
 .icon-link i {
     font-size: 1.7rem;
+    color: #ffd700; /* Oro amarillo */
 }
 
 .icon-link:hover {
@@ -83,4 +83,63 @@
 
 .nav li:hover .tooltip {
     opacity: 1;
+}
+
+/* New CSS for responsive menu */
+.menu-toggle {
+    display: none; /* Hidden by default on desktop */
+    background: none;
+    border: none;
+    color: #ffd700;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 301; /* Ensure it's above other elements */
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 0.5rem 1rem; /* Adjust padding for smaller screens */
+    }
+
+    .menu-toggle {
+        display: block; /* Show hamburger menu on small screens */
+    }
+
+    .nav {
+        display: none; /* Hide navigation by default on small screens */
+        flex-direction: column;
+        position: absolute;
+        top: 59px; /* Below the header */
+        left: 0;
+        width: 100%;
+        background-color: #000713;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        z-index: 299; /* Below the header but above content */
+    }
+
+    .nav.open {
+        display: flex; /* Show navigation when menu is open */
+    }
+
+    .nav ul {
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem 0;
+        gap: 0; /* Remove gap for vertical stacking */
+    }
+
+    .nav li {
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 0;
+    }
+
+    .icon-link {
+        width: 100%;
+        padding: 0.8rem 0; /* Increase padding for better touch targets */
+    }
+
+    .tooltip {
+        display: none; /* Hide tooltips on mobile */
+    }
 }

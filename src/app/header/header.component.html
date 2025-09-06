@@ -1,14 +1,20 @@
 <header class="header">
     <div class="logo">
-        <img src="logo01.png" alt="AmbatoDeveloper" class="logo-img" />
+        <img src="/logo01.webp" alt="AmbatoDeveloper" title="AmbatoDeveloper" class="logo-img" width="71"
+            height="100" />
     </div>
-    <nav class="nav">
+    <!-- Hamburger menu button for mobile -->
+    <button class="menu-toggle" (click)="toggleMobileMenu()" aria-label="Toggle navigation menu">
+        <i class="fas fa-bars"></i> <!-- Font Awesome bars icon -->
+    </button>
+
+    <nav class="nav" [class.open]="isMobileMenuOpen">
         <ul>
             @for (item of items; track item.key) {
             <li (mouseenter)="toggleToolTip(item.key.toLowerCase(), true)"
                 (mouseleave)="toggleToolTip(item.key.toLowerCase(), false)">
                 <a [routerLink]="item.routeLink" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"
-                    class="icon-link">
+                    class="icon-link" (click)="closeMobileMenu()"> <!-- Add click event here -->
                     <i [class]="item.icon + ' fa-2x'"></i>
                 </a>
                 @if (showToolTip[item.key.toLowerCase()]) {

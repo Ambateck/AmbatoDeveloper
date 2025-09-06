@@ -1,1 +1,29 @@
-<p>products works!</p>
+<div class="products-container">
+  <h1 class="main-title">Nuestros Proyectos</h1>
+  <p class="subtitle">Una muestra del trabajo que nos apasiona y enorgullece.</p>
+
+  <div class="cards-grid">
+    @for (product of products; track product.name) {
+    <div class="product-card">
+      <div class="card-header">
+        <i [class]="product.icon + ' fa-3x'"></i>
+        <h2>{{ product.name }}</h2>
+      </div>
+      <div class="card-body">
+        <p class="description">{{ product.description }}</p>
+      </div>
+      <div class="card-footer">
+        @if (product.name === 'Festival del Código 2026') {
+        <button (click)="openModal()" class="product-button">Inscribirme</button>
+        } @else {
+        <button class="product-button" disabled>Ver detalles</button>
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+@if (isModalOpen) {
+<app-modal-form (close)="closeModal()"></app-modal-form>
+}
