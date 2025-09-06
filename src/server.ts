@@ -1,66 +1,59 @@
-import {
-  AngularNodeAppEngine,
-  createNodeRequestHandler,
-  isMainModule,
-  writeResponseToNodeResponse,
-} from '@angular/ssr/node';
-import express from 'express';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-const browserDistFolder = resolve(serverDistFolder, '../browser');
+import 'dotenv/config';
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+const port = process.env['PORT'] || 3000;
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/**', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+const ADMIN_PASSWORD = process.env['ADMIN_PASSWORD'];
 
-/**
- * Serve static files from /browser
- */
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-  }),
-);
-
-/**
- * Handle all other requests by rendering the Angular application.
- */
-app.use('/**', (req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
-});
-
-/**
- * Start the server if this module is the main entry point.
- * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
- */
-if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 4000;
-  app.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
+if (!ADMIN_PASSWORD) {
+  console.error("FATAL ERROR: ADMIN_PASSWORD environment variable is not set.");
+  process.exit(1);
 }
 
-/**
- * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
- */
-export const reqHandler = createNodeRequestHandler(app);
+const clientOrigin = process.env['CLIENT_ORIGIN'];
+
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    if (!origin || (clientOrigin && origin === clientOrigin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
+
+app.use(express.json());
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+app.post('/api/validate-password', (req: Request, res: Response) => {
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ success: false, message: 'Password is required.' });
+  }
+
+  if (password === ADMIN_PASSWORD) {
+    return res.json({ success: true });
+  } else {
+    return res.status(401).json({ success: false, message: 'Invalid credentials.' });
+  }
+});
+
+
+app.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
+  if (clientOrigin) {
+    console.log(`Accepting requests from origin: ${clientOrigin}`);
+  } else {
+    console.warn(`Warning: CLIENT_ORIGIN is not set. CORS may block requests.`);
+  }
+  console.log("Reminder: For production, run this server behind a reverse proxy (like Nginx) to handle HTTPS.");
+});

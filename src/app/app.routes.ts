@@ -11,16 +11,16 @@ import { ProductsComponent } from './header/products/products.component';
 import { ServicesComponent } from './header/services/services.component';
 
 export const routes: Routes = [
-    { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent) },
-    { path: 'call', component: CallComponent },
-    { path: 'code-fest', component: CodeFestComponent },
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'donations', component: DonationsComponent },
-    { path: 'free-design', component: FreeDesignComponent },
-    { path: 'job-market', component: JobMarketComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'products', component: ProductsComponent },
-    { path: 'services', component: ServicesComponent },
-    { path: 'share-idea', component: ShareIdeaComponent },
+    { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent), data: { animation: 'HomePage' } },
+    { path: 'call', component: CallComponent, data: { animation: 'CallPage' } },
+    { path: 'code-fest', component: CodeFestComponent, data: { animation: 'CodeFestPage' } },
+    { path: 'dashboard', component: DashboardComponent, data: { animation: 'DashboardPage' } },
+    { path: 'donations', component: DonationsComponent, data: { animation: 'DonationsPage' } },
+    { path: 'free-design', component: FreeDesignComponent, data: { animation: 'FreeDesignPage' } },
+    { path: 'job-market', component: JobMarketComponent, data: { animation: 'JobMarketPage' } },
+    { path: 'login', component: LoginComponent, data: { animation: 'LoginPage' } },
+    { path: 'products', component: ProductsComponent, data: { animation: 'ProductsPage' } },
+    { path: 'services', component: ServicesComponent, data: { animation: 'ServicesPage' } },
+    { path: 'share-idea', component: ShareIdeaComponent, data: { animation: 'ShareIdeaPage' } },
     { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];
