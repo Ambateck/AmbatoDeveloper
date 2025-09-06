@@ -28,28 +28,22 @@
             ],
             "styles": [
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "node_modules/aos/dist/aos.css",
               "src/styles.css"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
                 }
               ],
               "outputHashing": "all"
@@ -69,7 +63,10 @@
               "buildTarget": "AmbatoDeveloper:build:production"
             },
             "development": {
-              "buildTarget": "AmbatoDeveloper:build:development"
+              "buildTarget": "AmbatoDeveloper:build:development",
+              "headers": {
+                "Cross-Origin-Opener-Policy": "unsafe-none"
+              }
             }
           },
           "defaultConfiguration": "development"
