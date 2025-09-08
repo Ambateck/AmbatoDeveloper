@@ -9,6 +9,7 @@ import { CallComponent } from './header/call/call.component';
 import { LoginComponent } from './header/login/login.component';
 import { ProductsComponent } from './header/products/products.component';
 import { ServicesComponent } from './header/services/services.component';
+import { PoliticaPrivacidadComponent } from './politica-privacidad/politica-privacidad.component';
 
 export const routes: Routes = [
     { path: 'home', loadComponent: () => import('./home/home.component').then(m => m.HomeComponent), data: { animation: 'HomePage' } },
@@ -22,5 +23,6 @@ export const routes: Routes = [
     { path: 'products', component: ProductsComponent, data: { animation: 'ProductsPage' } },
     { path: 'services', component: ServicesComponent, data: { animation: 'ServicesPage' } },
     { path: 'share-idea', component: ShareIdeaComponent, data: { animation: 'ShareIdeaPage' } },
+    { path: 'politica-privacidad', component: PoliticaPrivacidadComponent, data: { animation: 'PoliticaPrivacidadPage' } },
     { path: '**', redirectTo: 'home', pathMatch: 'full' },
 ];

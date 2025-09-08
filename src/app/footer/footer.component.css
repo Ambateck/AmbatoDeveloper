@@ -1,3 +1,9 @@
+.footer-line.copyright a {
+  margin-left: 0.5em;
+  color: #ffd700; /* Opcional: asegura que el color coincida */
+  text-decoration: underline; /* Opcional: para que parezca más un enlace */
+}
+
 .footer {
     position: fixed;
     bottom: 0;

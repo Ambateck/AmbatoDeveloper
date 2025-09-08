@@ -13,8 +13,10 @@
         <p class="description">{{ product.description }}</p>
       </div>
       <div class="card-footer">
-        @if (product.name === 'Festival del Código 2026') {
+        @if (product.type === 'modal') {
         <button (click)="openModal()" class="product-button">Inscribirme</button>
+        } @else if (product.type === 'download') {
+        <a [href]="product.url" download class="product-button">Descargar</a>
         } @else {
         <button class="product-button" disabled>Ver detalles</button>
         }
