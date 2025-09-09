@@ -4,6 +4,7 @@ import { AuthService } from '../../auth.service';
 import { Observable } from 'rxjs';
 import { User } from '@angular/fire/auth';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginComponent {
   currentUser$: Observable<User | null>;
   imageError = false;
 
-  constructor(private authService: AuthService, private location: Location) {
+  constructor(private authService: AuthService, private location: Location, private router: Router) {
     this.currentUser$ = this.authService.currentUser$.pipe(
       tap(() => this.imageError = false)
     );
@@ -58,7 +59,7 @@ export class LoginComponent {
   }
 
   closeLogin(): void {
-    this.location.back();
+    this.router.navigate(['/code-fest']);
   }
 
   onImageError(): void {

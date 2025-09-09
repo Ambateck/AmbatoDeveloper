@@ -1,10 +1,9 @@
 <div class="auth-container-overlay">
   <div class="auth-container" *ngIf="currentUser$ | async as user; else loading">
 
-    <button class="close-button" (click)="closeLogin()">×</button>
-
     <!-- USER LOGGED IN VIEW -->
     <div *ngIf="!user.isAnonymous" class="user-profile">
+      <button class="close-button" (click)="closeLogin()">×</button>
       <ng-container *ngIf="user.photoURL && !imageError; else initialsAvatar">
         <img [src]="user.photoURL" alt="Foto de perfil" class="user-avatar" (error)="onImageError()">
       </ng-container>
@@ -28,6 +27,7 @@
 
     <!-- ANONYMOUS USER VIEW -->
     <div *ngIf="user.isAnonymous" class="login-card">
+      <button class="close-button" (click)="closeLogin()">×</button>
       <h2 class="login-title">Únete a la Comunidad</h2>
       <p class="login-subtitle">¡AHORA PUEDES ENVIARNOS TU INSCRIPCIÓN Y TUS DATOS!, también puedes usar tus redes
         sociales, si quieres salir del modo invitado click en el botón cerrar sesión</p>
@@ -53,6 +53,7 @@
   <!-- LOADING TEMPLATE -->
   <ng-template #loading>
     <div class="login-card">
+      <button class="close-button" (click)="closeLogin()">×</button>
       <h2 class="login-title">Bienvenido</h2>
       <p class="login-subtitle">Elige una opción para continuar</p>
       <div class="login-buttons">

@@ -19,7 +19,7 @@
 
 .auth-container, .login-card {
   background-color: #1c1c2c;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 215, 0, 0.2);
@@ -109,15 +109,15 @@
 }
 
 .login-subtitle {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #b0b0b0;
-  margin-bottom: 2rem;
+  margin-bottom: 0.8rem;
 }
 
 .login-buttons {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 }
 
 /* General button style */
