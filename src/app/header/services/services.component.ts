@@ -88,7 +88,7 @@ export class ServicesComponent implements OnInit {
 
   editRegistration(id: string): void {
     if (!this.isAuthenticated) {
-      alert('You must be logged in to edit a registration.');
+      alert('Debe iniciar sesión para editar un registro');
       return;
     }
     this.currentActionId = id;
@@ -98,7 +98,7 @@ export class ServicesComponent implements OnInit {
 
   deleteRegistration(id: string): void {
     if (!this.isAuthenticated) {
-      alert('You must be logged in to delete a registration.');
+      alert('Debe iniciar sesión para eliminar un registro');
       return;
     }
     this.currentActionId = id;

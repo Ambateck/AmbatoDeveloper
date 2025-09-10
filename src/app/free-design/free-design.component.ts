@@ -5,14 +5,14 @@ import { FirestoreService } from '../firestore.service';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { PasswordModalComponent } from '../header/services/password-modal/password-modal.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { User } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-free-design',
   standalone: true,
-  imports: [FormsModule, CommonModule, PasswordModalComponent, HttpClientModule],
+  imports: [FormsModule, CommonModule, PasswordModalComponent],
   templateUrl: './free-design.component.html',
   styleUrl: './free-design.component.css'
 })
@@ -103,7 +103,7 @@ export class FreeDesignComponent implements OnInit {
 
   async enviarSolicitud() {
     if (!this.isAuthenticated) {
-      alert('You must be logged in to send a design request.');
+      alert('Debe iniciar sesión para enviar una solicitud de diseño');
       return;
     }
 
@@ -147,7 +147,7 @@ export class FreeDesignComponent implements OnInit {
 
   updateStatus(id: string, currentStatus: string) {
     if (!this.isAuthenticated) {
-      alert('You must be logged in to update a design request status.');
+      alert('Debe iniciar sesión para actualizar el estado de una solicitud de diseño');
       return;
     }
     if (currentStatus === 'En revisión') {
@@ -159,7 +159,7 @@ export class FreeDesignComponent implements OnInit {
 
   deleteRequest(id: string) {
     if (!this.isAuthenticated) {
-      alert('You must be logged in to delete a design request.');
+      alert('Debe iniciar sesión para eliminar una solicitud de diseño');
       return;
     }
     this.currentActionId = id;

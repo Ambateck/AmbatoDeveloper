@@ -1,12 +1,11 @@
-// Import dotenv to load environment variables from a .env file
-import 'dotenv/config';
+import * as functions from 'firebase-functions';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 
 // --- Configuration and Setup ---
 
 const app = express();
-const port = process.env['PORT'] || 3000;
+// const port = process.env['PORT'] || 3000;
 
 // --- Security Best Practices ---
 
@@ -14,7 +13,7 @@ const ADMIN_PASSWORD = process.env['ADMIN_PASSWORD'];
 
 if (!ADMIN_PASSWORD) {
   console.error("FATAL ERROR: ADMIN_PASSWORD environment variable is not set.");
-  process.exit(1);
+  throw new Error("ADMIN_PASSWORD environment variable is not set.");
 }
 
 const clientOrigin = process.env['CLIENT_ORIGIN'];
@@ -57,13 +56,5 @@ app.post('/api/validate-password', (req: Request, res: Response) => {
 });
 
 // --- Server Activation ---
+export const api = functions.https.onRequest(app);
 
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-  if (clientOrigin) {
-    console.log(`Accepting requests from origin: ${clientOrigin}`);
-  } else {
-    console.warn(`Warning: CLIENT_ORIGIN is not set. CORS may block requests.`);
-  }
-  console.log("Reminder: For production, run this server behind a reverse proxy (like Nginx) to handle HTTPS.");
-});

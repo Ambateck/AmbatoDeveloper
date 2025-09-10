@@ -1,4 +1,5 @@
-import { Injectable, NgZone, Injector, runInInjectionContext } from '@angular/core';
+import { Injectable, NgZone, Injector, runInInjectionContext, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Firestore, collection, addDoc, collectionData, doc, deleteDoc, serverTimestamp, query, orderBy, updateDoc, Timestamp } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL, deleteObject } from "@angular/fire/storage";
 import { Observable } from 'rxjs';
@@ -8,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class FirestoreService {
 
-  constructor(private firestore: Firestore, private zone: NgZone, private storage: Storage, private injector: Injector) { 
+  constructor(private firestore: Firestore, private zone: NgZone, private storage: Storage, private injector: Injector, @Inject(PLATFORM_ID) private platformId: Object) { 
   }
 
   // Design Requests
@@ -43,20 +44,24 @@ export class FirestoreService {
 
   // CV Uploads
   uploadCv(file: File, userId: string, filePath: string): Promise<any> {
-    return this.zone.run(() => {
-      const storageRef = ref(this.storage, filePath);
-      return uploadBytes(storageRef, file).then(snapshot => {
-        return getDownloadURL(snapshot.ref).then(downloadURL => {
-          const cvCollection = collection(this.firestore, 'cv-uploads');
-          return addDoc(cvCollection, {
-            userId,
-            filePath,
-            downloadURL,
-            uploadedAt: serverTimestamp()
+    if (isPlatformBrowser(this.platformId)) {
+      return this.zone.run(() => {
+        const storageRef = ref(this.storage, filePath);
+        return uploadBytes(storageRef, file).then(snapshot => {
+          return getDownloadURL(snapshot.ref).then(downloadURL => {
+            const cvCollection = collection(this.firestore, 'cv-uploads');
+            return addDoc(cvCollection, {
+              userId,
+              filePath,
+              downloadURL,
+              uploadedAt: serverTimestamp()
+            });
           });
         });
       });
-    });
+    } else {
+      return Promise.resolve(null);
+    }
   }
 
   getCvUploads(): Observable<any[]> {
@@ -69,18 +74,22 @@ export class FirestoreService {
   }
 
   deleteCvUpload(id: string, filePath: string) {
-    return this.zone.run(() => {
-      const cvDoc = doc(this.firestore, 'cv-uploads', id);
-      const storageRef = ref(this.storage, filePath);
-      return deleteObject(storageRef).catch(error => {
-        if (error.code === 'storage/object-not-found') {
-          return;
-        }
-        throw error;
-      }).then(() => {
-        return deleteDoc(cvDoc);
+    if (isPlatformBrowser(this.platformId)) {
+      return this.zone.run(() => {
+        const cvDoc = doc(this.firestore, 'cv-uploads', id);
+        const storageRef = ref(this.storage, filePath);
+        return deleteObject(storageRef).catch(error => {
+          if (error.code === 'storage/object-not-found') {
+            return;
+          }
+          throw error;
+        }).then(() => {
+          return deleteDoc(cvDoc);
+        });
       });
-    });
+    } else {
+      return Promise.resolve();
+    }
   }
 
   // Ideas
@@ -142,9 +151,13 @@ export class FirestoreService {
 
   // File Upload (Generic)
   uploadFile(file: File, path: string): Promise<string> {
-    return this.zone.run(() => {
-        const storageRef = ref(this.storage, path);
-        return uploadBytes(storageRef, file).then(() => getDownloadURL(storageRef));
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      return this.zone.run(() => {
+          const storageRef = ref(this.storage, path);
+          return uploadBytes(storageRef, file).then(() => getDownloadURL(storageRef));
+      });
+    } else {
+      return Promise.resolve('');
+    }
   }
 }

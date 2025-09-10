@@ -18,5 +18,9 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "functions": {
+    "source": "api",
+    "runtime": "nodejs18"
   }
 }
